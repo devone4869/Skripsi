@@ -4167,6 +4167,7 @@
     <Content Include="Assets\global\plugins\wysihtml\minified\wysihtml.min.map" />
     <Content Include="Assets\global\plugins\wysihtml\minified\wysihtml.table_editing.min.map" />
     <Content Include="Assets\global\plugins\wysihtml\minified\wysihtml.toolbar.min.map" />
+    <Content Include="Database\db_skripsi.bak" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
