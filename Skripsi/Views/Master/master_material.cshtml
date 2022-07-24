@@ -1,6 +1,4 @@
-﻿
-
-<!-- Style to set the size of checkbox -->
+﻿<!-- Style to set the size of checkbox -->
 <style>
     input.larger-checkbox {
         width: 40px;
@@ -20,23 +18,25 @@
                         <div class="portlet-title tabbable-line">
                             <div class="caption caption-md">
                                 <i class="icon-globe theme-font hide"></i>
-                                <span class="caption-subject bold uppercase font-dark">Data Area</span>
+                                <span class="caption-subject bold uppercase font-dark">Data Material</span>
                             </div>
                             <div class="actions">
                                 <div class="btn-group-devided" data-toggle="buttons">
-                                    <button style="margin-right: 10px;" id="btn-add-area-modal" class="btn bg-red-thunderbird bg-font-red-thunderbird">
+                                    <button style="margin-right: 10px;" id="btn-add-material-modal" class="btn bg-red-thunderbird bg-font-red-thunderbird">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <table class="table table-striped table-hover table-bordered" id="table_area">
+                            <table class="table table-striped table-hover table-bordered" id="table_material">
                                 <thead>
                                     <tr class="bg-red-thunderbird bg-font-red-thunderbird">
                                         <th style="display:none;"> id </th>
-                                        <th> NAMA AREA </th>
-                                        <th> KODE AREA </th>
+                                        <th> NAMA MATERIAL </th>
+                                        <th> KODE MATERIAL </th>
+                                        <th> TIPE MATERIAL </th>
+                                        <th> BAHAN MATERIAL </th>
                                         <th width="10%"></th>
                                     </tr>
                                 </thead>
@@ -51,38 +51,54 @@
     </div>
 </div>
 
-<div id="modal-master-area" class="modal fade" data-width="760" data-backdrop="static" tabindex="-1">
+<div id="modal-master-material" class="modal fade" data-width="760" data-backdrop="static" tabindex="-1">
     <div class="modal-header bg-red-thunderbird bg-font-red-thunderbird">
         <button type="button" class="close cancel" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title">DATA AREA</h4>
+        <h4 class="modal-title">DATA MATERIAL</h4>
     </div>
-    <form action="#" id="form_master_area" class="form-horizontal">
+    <form action="#" id="form_master_material" class="form-horizontal">
         <div class="form-body">
             <div class="alert alert-danger display-hide">
                 <button class="close" data-close="alert"></button> Ada beberapa kolom yang belum terisi, silahkan cek kembali
             </div>
             <div class="modal-body">
-                <input type="hidden" id="txtareaid" class="form-control" />
+                <input type="hidden" id="txtmaterialid" class="form-control" />
                 <div class="row" style="margin-bottom: -5px;">
                     <div class="form-group">
-                        <label class="control-label col-md-3">Kode Area<span class="required"> * </span></label>
+                        <label class="control-label col-md-3">Kode Material<span class="required"> * </span></label>
                         <div class="col-md-9" style="padding-right: 40px; !important;">
-                            <input type="text" id="txtkodearea" placeholder="Kode Area" maxlength="100" name="area" class="form-control" />
+                            <input type="text" id="txtkodematerial" placeholder="Kode Material" maxlength="100" name="material" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: -5px;">
                     <div class="form-group">
-                        <label class="control-label col-md-3">Nama Area<span class="required"> * </span></label>
+                        <label class="control-label col-md-3">Nama Material<span class="required"> * </span></label>
                         <div class="col-md-9" style="padding-right: 40px; !important;">
-                            <input type="text" id="txtnamaarea" placeholder="Nama Area" maxlength="100" name="area" class="form-control" />
+                            <input type="text" id="txtnamamaterial" placeholder="Nama Material" maxlength="100" name="material" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: -5px;">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Tipe Material<span class="required"> * </span></label>
+                        <div class="col-md-9" style="padding-right: 40px; !important;">
+                            <input type="text" id="txttipematerial" placeholder="Tipe Material" maxlength="100" name="material" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: -5px;">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Bahan Material<span class="required"> * </span></label>
+                        <div class="col-md-9" style="padding-right: 40px; !important;">
+                            <input type="text" id="txtsubstancematerial" placeholder="Bahan Material" maxlength="100" name="material" class="form-control" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn cancel btn-outline dark">Batal</button>
-                <button type="button" class="btn red-thunderbird" id="btn-add-area">Submit</button>
+                <button type="button" class="btn red-thunderbird" id="btn-add-material">Submit</button>
             </div>
         </div>
     </form>
@@ -96,13 +112,13 @@
 
         // BEGIN OPEN ACTIVE MENU
         $('#master-menu').addClass('active ');
-        $('#master-area-menu').addClass('active');
+        $('#master-material-menu').addClass('active');
 
 
-        /* INIT TABLE MASTER area */
+        /* INIT TABLE MASTER material */
         function initData() {
 
-            var tableDocument =$('#table_area').DataTable({
+            var tableDocument =$('#table_material').DataTable({
                 "bJQueryUI": true,
                 "destroy": true,
                 "bProcessing": true,
@@ -112,16 +128,18 @@
                 "paging": true,
                 "autoWidth": false,
                 "ordering": false,
-                "sAjaxSource": '/master/getlistarea',
+                "sAjaxSource": '/master/getlistmaterial',
                 "sAjaxDataProp": "",
                 "aoColumns": [
-                    { "mDataProp": "m_area_id", "visible": false, "searchable": true, "targets": [0] },
-                    { "mDataProp": "m_area_code" },
-                    { "mDataProp": "m_area_name" },
+                    { "mDataProp": "m_material_id", "visible": false, "searchable": true, "targets": [0] },
+                    { "mDataProp": "m_material_code" },
+                    { "mDataProp": "m_material_name" },
+                    { "mDataProp": "m_material_type" },
+                    { "mDataProp": "m_substance" },
                     {
                         "mData": function (data, row) {
-                            return '<a class="btn bg-red-thunderbird bg-font-red-thunderbird edit-status-area" href="javascript:;">EDIT</a>' + 
-                            '<a class="btn bg-red-thunderbird bg-font-red-thunderbird delete-status-area" href="javascript:;">HAPUS</a>' ;
+                            return '<a class="btn bg-red-thunderbird bg-font-red-thunderbird edit-status-material" href="javascript:;">EDIT</a>' +
+                            '<a class="btn bg-red-thunderbird bg-font-red-thunderbird delete-status-material" href="javascript:;">HAPUS</a>' ;
                         }
                     }
                 ]
@@ -133,49 +151,51 @@
         initData();
 
 
-        /* BTN MODAL MASTER area */
-        $(document).on('click', '#btn-add-area-modal', function (e) {
+        /* BTN MODAL MASTER material */
+        $(document).on('click', '#btn-add-material-modal', function (e) {
 
-            $('#form_master_area')[0].reset();
-            $('#txtareaId').val('');
-            $('#form_master_area .form-control').val('');
+            $('#form_master_material')[0].reset();
+            $('#txtmaterialId').val('');
+            $('#form_master_material .form-control').val('');
             $('.has-error').removeClass('has-error');
             $('.fa-warning').removeClass('fa-warning');
             $('.has-success').removeClass('has-success');
             $('.fa-check').removeClass('fa-check');
             $('.alert-danger').hide();
-            $('#modal-master-area').modal('show');
+            $('#modal-master-material').modal('show');
 
         });
 
 
-        /* SAVE MASTER area */
-        function savearea() {
+        /* SAVE MASTER material */
+        function savematerial() {
 
-            var area = new FormData();
-            area.append('m_area_code', $('#txtkodearea').val());
-            area.append('m_area_name', $('#txtnamaarea').val());
-            area.append('status', 'ACTIVE');
-            area.append("m_area_id", $('#txtareaid').val());
+            var materi = new FormData();
+            materi.append('m_material_code', $('#txtkodematerial').val());
+            materi.append('m_material_name', $('#txtnamamaterial').val());
+            materi.append('m_material_type', $('#txttipematerial').val());
+            materi.append('m_substance', $('#txtsubstancematerial').val());
+            materi.append('status', 'ACTIVE');
+            materi.append("m_material_id", $('#txtmaterialid').val());
 
             // DO POST
             $.ajax({
                 type: "POST",
-                url: "/master/savearea",
-                data: area,
+                url: "/master/savematerial",
+                data: materi,
                 contentType: false,
                 processData: false,
                 success: function (result) {
                     App.unblockUI();
-                    $('#form_master_area')[0].reset();
-                    $('#txtareaid').val('');
-                    $('#form_master_area .form-control').val('');
+                    $('#form_master_material')[0].reset();
+                    $('#txtmaterialid').val('');
+                    $('#form_master_material .form-control').val('');
                     $('.has-error').removeClass('has-error');
                     $('.fa-warning').removeClass('fa-warning');
                     $('.has-success').removeClass('has-success');
                     $('.fa-check').removeClass('fa-check');
                     $('.alert-danger').hide();
-                    $('#modal-master-area').modal('hide');
+                    $('#modal-master-material').modal('hide');
                     if (result == "timeout") {
                         swal({
                             title: "Session Habis!",
@@ -217,9 +237,9 @@
         }
 
 
-        
-        /* CONFIRM SAVE MASTER area */
-        function confirmSavearea() {
+
+        /* CONFIRM SAVE MASTER material */
+        function confirmSavematerial() {
             swal({
                 title: "Konfirmasi Data",
                 text: "Apa Anda Yakin Data Ingin Disimpan ?",
@@ -238,7 +258,7 @@
                         boxed: true
                     });
 
-                    savearea();
+                    savematerial();
 
                 } else {
                     App.unblockUI();
@@ -248,8 +268,8 @@
         }
 
 
-        /* CONFIRM EDIT STATUS MASTER area */
-        function confirmEditStatusarea(id) {
+        /* CONFIRM EDIT STATUS MASTER material */
+        function confirmEditStatusmaterial(id) {
             swal({
                 title: "Konfirmasi Data",
                 text: "Apa Anda Yakin Status Ingin Diubah ?",
@@ -268,7 +288,7 @@
                         boxed: true
                     });
 
-                    editStatusarea(id);
+                    editStatusmaterial(id);
 
                 } else {
                     App.unblockUI();
@@ -278,59 +298,61 @@
         }
 
 
-        /* BTN SUBMIT MASTER area */
-        $(document).on("click", "#btn-add-area", function (e) {
+        /* BTN SUBMIT MASTER material */
+        $(document).on("click", "#btn-add-material", function (e) {
 
-            if ($('#form_master_area').validate().form()) {
+            if ($('#form_master_material').validate().form()) {
                 App.blockUI({
                     boxed: true
                 });
 
-               confirmSavearea();
-               
+               confirmSavematerial();
+
             }
 
         });
 
-         /* BTN EDIT STATUS MASTER area */
-        $(document).on("click", ".edit-status-area", function (e) {
-            var oTable = $('#table_area').dataTable();
+         /* BTN EDIT STATUS MASTER material */
+        $(document).on("click", ".edit-status-material", function (e) {
+            var oTable = $('#table_material').dataTable();
             var id = oTable.fnGetData($(this).parent().parent(), 0);
 
             App.blockUI({
                 boxed: true
             });
 
-            getDetailarea(id);
+            getDetailmaterial(id);
 
         });
 
 
-        /* BTN DELETE MASTER area */
-        $(document).on("click", ".delete-status-area", function (e) {
-            var oTable = $('#table_area').dataTable();
+        /* BTN DELETE MASTER material */
+        $(document).on("click", ".delete-status-material", function (e) {
+            var oTable = $('#table_material').dataTable();
             var id = oTable.fnGetData($(this).parent().parent(), 0);
 
             App.blockUI({
                 boxed: true
             });
 
-            confirmDeletearea(id);
+            confirmDeletematerial(id);
 
         });
 
 
-        /* GET DETAIL MASTER area */
-        function getDetailarea(id) {
+        /* GET DETAIL MASTER material */
+        function getDetailmaterial(id) {
             $.ajax({
                 type: "GET",
-                url: "/master/getdetailarea/" + id,
+                url: "/master/getdetailmaterial/" + id,
                 success: function (result) {
-                    $('#txtareaid').val(result.m_area_id);
-                    $('#txtkodearea').val(result.m_area_code);
-                    $('#txtnamaarea').val(result.m_area_name);
-                    $('#btn-add-area').text('Ubah');
-                    $('#modal-master-area').modal('show');
+                    $('#txtmaterialid').val(result.m_material_id);
+                    $('#txtkodematerial').val(result.m_material_code);
+                    $('#txtnamamaterial').val(result.m_material_name);
+                    $('#txttipematerial').val(result.m_material_type);
+                    $('#txtsubstancematerial').val(result.m_substance);
+                    $('#btn-add-material').text('Ubah');
+                    $('#modal-master-material').modal('show');
 
                     App.unblockUI();
                 },
@@ -342,11 +364,11 @@
         }
 
 
-        /* DELETE MASTER area */
-        function deletearea(id) {
+        /* DELETE MASTER material */
+        function deletematerial(id) {
             $.ajax({
                 type: "POST",
-                url: "/master/deletearea/" + id,
+                url: "/master/deletematerial/" + id,
                 success: function (result) {
                     App.unblockUI();
                     if (result == "timeout") {
@@ -385,8 +407,8 @@
         }
 
 
-        /* CONFIRM DELETE MASTER area */
-        function confirmDeletearea(id) {
+        /* CONFIRM DELETE MASTER material */
+        function confirmDeletematerial(id) {
             swal({
                 title: "Konfirmasi Data",
                 text: "Apa Anda Yakin Data Ingin Dihapus ?",
@@ -405,7 +427,7 @@
                         boxed: true
                     });
 
-                    deletearea(id);
+                    deletematerial(id);
 
                 } else {
                      App.unblockUI();

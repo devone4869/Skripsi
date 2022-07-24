@@ -36,8 +36,6 @@ namespace Skripsi.Repository
 
         }
 
-
-  
         public tn_m_area GetDetailArea(int? id)
         {
 
@@ -61,8 +59,6 @@ namespace Skripsi.Repository
 
         }
 
-
-       
         public bool SaveArea(tn_m_area area)
         {
 
@@ -107,6 +103,220 @@ namespace Skripsi.Repository
                 _conn = new db_conn();
                 tn_m_area eth = _conn.tn_m_area.Single(m => m.m_area_id == id);
                 _conn.tn_m_area.Remove(eth);
+                _conn.SaveChanges();
+
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                return false;
+                throw;
+
+            }
+
+            return true;
+
+        }
+
+        public List<tn_m_manufacture> GetListManufacture()
+        {
+
+            List<tn_m_manufacture> listManu = new List<tn_m_manufacture>();
+
+            try
+            {
+
+                _conn = new db_conn();
+                listManu = _conn.tn_m_manufacture.ToList();
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                throw;
+
+            }
+
+            return listManu;
+
+        }
+
+        public tn_m_manufacture GetDetailManufacture(int? id)
+        {
+
+            tn_m_manufacture manu = new tn_m_manufacture();
+
+            try
+            {
+
+                _conn = new db_conn();
+                manu = _conn.tn_m_manufacture.Single(m => m.m_manu_id == id);
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                throw;
+
+            }
+
+            return manu;
+
+        }
+
+        public bool SaveManufacture(tn_m_manufacture manu)
+        {
+
+            try
+            {
+                _conn = new db_conn();
+                if (manu.m_manu_id == 0)
+                {
+                    manu.created_date = DateTime.Now;
+                    _conn.tn_m_manufacture.Add(manu);
+                    _conn.SaveChanges();
+                }
+                else
+                {
+                    tn_m_manufacture man = _conn.tn_m_manufacture.Single(m => m.m_manu_id == manu.m_manu_id);
+                    _conn.tn_m_manufacture.Attach(man);
+                    man.m_manu_code = manu.m_manu_code;
+                    man.m_manu_name = manu.m_manu_name;
+                    _conn.SaveChanges();
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                return false;
+                throw;
+
+            }
+
+            return true;
+
+        }
+
+        public bool DeleteManufacture(int? id)
+        {
+
+            try
+            {
+
+                _conn = new db_conn();
+                tn_m_manufacture eth = _conn.tn_m_manufacture.Single(m => m.m_manu_id == id);
+                _conn.tn_m_manufacture.Remove(eth);
+                _conn.SaveChanges();
+
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                return false;
+                throw;
+
+            }
+
+            return true;
+
+        }
+
+        public List<tn_m_material> GetListMaterial()
+        {
+
+            List<tn_m_material> list = new List<tn_m_material>();
+
+            try
+            {
+
+                _conn = new db_conn();
+                list = _conn.tn_m_material.ToList();
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                throw;
+
+            }
+
+            return list;
+
+        }
+
+        public tn_m_material GetDetailMaterial(int? id)
+        {
+
+            tn_m_material manu = new tn_m_material();
+
+            try
+            {
+
+                _conn = new db_conn();
+                manu = _conn.tn_m_material.Single(m => m.m_material_id == id);
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                throw;
+
+            }
+
+            return manu;
+
+        }
+
+        public bool SaveMaterial(tn_m_material materi)
+        {
+
+            try
+            {
+                _conn = new db_conn();
+                if (materi.m_material_id == 0)
+                {
+                    materi.created_date = DateTime.Now;
+                    _conn.tn_m_material.Add(materi);
+                    _conn.SaveChanges();
+                }
+                else
+                {
+                    tn_m_material mat = _conn.tn_m_material.Single(m => m.m_material_id == materi.m_material_id);
+                    _conn.tn_m_material.Attach(mat);
+                    mat.m_material_code = materi.m_material_code;
+                    mat.m_material_name = materi.m_material_name;
+                    mat.m_material_type = materi.m_material_type;
+                    mat.m_substance = materi.m_substance;
+                    _conn.SaveChanges();
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+                Console.WriteLine(e);
+                return false;
+                throw;
+
+            }
+
+            return true;
+
+        }
+
+        public bool DeleteMaterial(int? id)
+        {
+
+            try
+            {
+
+                _conn = new db_conn();
+                tn_m_material eth = _conn.tn_m_material.Single(m => m.m_material_id == id);
+                _conn.tn_m_material.Remove(eth);
                 _conn.SaveChanges();
 
             }

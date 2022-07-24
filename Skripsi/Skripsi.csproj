@@ -4262,6 +4262,8 @@
     <Content Include="Views\Template\sidebar_menu.cshtml" />
     <Content Include="Views\Users\users.cshtml" />
     <Content Include="Views\Master\master_area.cshtml" />
+    <Content Include="Views\Master\master_manufacture.cshtml" />
+    <Content Include="Views\Master\master_material.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
