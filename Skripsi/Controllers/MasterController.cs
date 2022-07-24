@@ -274,5 +274,16 @@ namespace Skripsi.Controllers
             return Json(delete, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult Equipment()
+        {
+            if (Session["sessionUser"] == null)
+            {
+                return RedirectToAction("signout");
+            }
+
+            tn_u_login user = (tn_u_login)Session["sessionUser"];
+            return View(path + "master_equipment.cshtml", user);
+        }
     }
 }
